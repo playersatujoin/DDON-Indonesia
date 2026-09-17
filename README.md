@@ -2,8 +2,6 @@
 
 Patch terjemahan untuk mengikuti cerita DDON: **subtitle, percakapan karakter/NPC, dan quest**. Suara karakter tetap seperti aslinya.
 
-> **Status:** ZIP sedang diunggah. Tunggu sampai `DDON-Indonesia-v1.0.0.zip` muncul di bagian Assets pada halaman Releases.
-
 ## Unduh
 
 **[Buka halaman unduhan](https://github.com/playersatujoin/DDON-Indonesia/releases/latest)** dan pilih **`DDON-Indonesia-v1.0.0.zip`** (sekitar 1,34 GB).
