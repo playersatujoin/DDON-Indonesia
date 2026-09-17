@@ -2,6 +2,10 @@
 
 Terjemahan subtitle, percakapan, dan quest ke Bahasa Indonesia.
 
+![Contoh percakapan Leo dan quest dalam Bahasa Indonesia](assets/ddon-indonesia-dialog-leo.png)
+
+**[Download game — Dogma Rising](https://play.dogmarising.org/)**
+
 **[⬇ Download ZIP terjemahan — 1,34 GB](https://github.com/playersatujoin/DDON-Indonesia/releases/download/v1.0.0/DDON-Indonesia-v1.0.0.zip)**
 
 ## Cara pasang
