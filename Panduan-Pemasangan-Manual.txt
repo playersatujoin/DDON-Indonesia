@@ -1,0 +1,101 @@
+Pemasangan manual tanpa PowerShell
+
+Gunakan File Explorer untuk menyalin file dan Command Prompt untuk
+memeriksa SHA-256. Tidak perlu mengubah kebijakan PowerShell.
+Cara ini membutuhkan pemeriksaan setiap file; jangan melewati cadangan.
+
+1. Periksa paket dahulu
+
+   Buka manifest.json dengan Notepad. Lanjutkan hanya jika:
+   - status tepat COMPLETE_TEXT_COVERAGE;
+   - coverage_snapshot.issues bernilai 0;
+   - coverage_snapshot.processed sama dengan source_units.
+
+   Jika status masih IN_PROGRESS_NOT_COMPLETE, berhenti dan tunggu paket
+   lengkap. Jangan mengganti nilai status secara manual.
+
+   Daftar files dalam manifest adalah satu-satunya daftar file yang boleh
+   disalin. Tiap relative_path harus menunjuk ARC dalam nativePC/rom;
+   jangan gunakan entri dengan jalur absolut, '..', atau nama berulang.
+   Folder game, patch, dan cadangan harus folder biasa, bukan junction
+   atau tautan ke lokasi lain. Jangan menyalin seluruh isi paket ke game.
+
+2. Tutup DDO dan peluncurnya
+
+   Tutup game secara normal. Pastikan DDO.exe, ddo_boot.exe, dan
+   DDO_Launcher.exe tidak berjalan di Task Manager. Jangan menjalankan
+   game, updater, atau pemasangan mod selama langkah berikut berlangsung.
+
+3. Periksa SEMUA file sebelum penggantian
+
+   Untuk setiap entri files, cocokkan:
+   - file game: <folder-game>\<relative_path> dengan original_sha256;
+   - file patch: <folder-paket>\patch\<relative_path> dengan patched_sha256.
+
+   Dari Command Prompt pada folder paket, contoh untuk entri
+   nativePC/rom/EventViewRoom.arc:
+
+     certutil -hashfile "D:\Dragon's Dogma Online\nativePC\rom\EventViewRoom.arc" SHA256
+     certutil -hashfile ".\patch\nativePC\rom\EventViewRoom.arc" SHA256
+
+   Bandingkan 64 karakter hash; huruf besar/kecil tidak membedakan hash.
+   Ulangi untuk semua entri. Jangan memakai hash dari contoh lain.
+   Jika satu file hilang atau hash berbeda, hentikan pemasangan. Jangan
+   menimpa mod/versi game yang berbeda. Jika file sudah cocok dengan patch,
+   pastikan cadangan asli paket itu tersedia dahulu; jangan mencadangkan
+   file bertambal seolah-olah file asli.
+
+4. Buat dan periksa SEMUA cadangan
+
+   Buat folder sesi baru dalam game, misalnya:
+
+     D:\Dragon's Dogma Online\DDON-Indonesia-backup\manual-20260917-080000
+
+   Gunakan nama sesi baru agar cadangan lama tidak tertimpa. Salin
+   manifest.json ke sesi ini sebagai manifest-paket.json. Dengan File
+   Explorer, salin setiap ARC asli yang terdaftar, mempertahankan jalur
+   relative_path. Contoh tujuan cadangan untuk entri di atas:
+
+     ...\manual-20260917-080000\nativePC\rom\EventViewRoom.arc
+
+   Verifikasi setiap file cadangan memakai certutil -hashfile dengan
+   original_sha256. Seluruh cadangan harus lengkap dan cocok SEBELUM
+   mengganti ARC pertama. Simpan catatan-manual.txt dalam sesi berisi
+   lokasi game, tanggal, daftar relative_path, dan hasil pemeriksaan hash.
+
+5. Salin patch yang terdaftar
+
+   Dengan File Explorer, salin satu per satu file yang disebut dalam
+   files dari folder paket\patch ke jalur yang sama dalam folder game.
+   Pilih penggantian hanya untuk ARC yang tercantum dan sudah dicadangkan.
+   Jangan memindahkan atau menghapus folder; jangan menyalin file di luar
+   daftar manifest. Jika memakai pilihan banyak file, pastikan semuanya
+   tercantum dalam manifest sebelum menyalin.
+
+   Setelah selesai, periksa SEMUA ARC game dengan certutil -hashfile;
+   semuanya harus cocok dengan patched_sha256. Catat selesai di
+   catatan-manual.txt, lalu game dapat dijalankan.
+
+Pemulihan manual atau pemasangan terputus
+
+   Tutup game dan peluncurnya. Gunakan manifest-paket.json dalam sesi
+   cadangan, bukan manifest paket yang mungkin telah diperbarui.
+
+   Periksa semua cadangan terhadap original_sha256. Periksa setiap ARC
+   game: hanya hash original_sha256 atau patched_sha256 yang boleh ada.
+   Jika ada hash lain, hentikan seluruh pemulihan dan pertahankan file
+   tersebut; kemungkinan ada mod atau pembaruan yang dipasang kemudian.
+
+   Setelah semua pemeriksaan lulus, salin kembali hanya ARC terdaftar
+   yang masih memiliki hash patched_sha256 dari cadangan ke folder game.
+   ARC yang sudah memiliki hash original_sha256 tidak perlu diganti.
+   Verifikasi semua ARC terhadap original_sha256 dan catat pemulihan.
+
+   Jika penyalinan terputus, jangan menjalankan game. Periksa kembali
+   seluruh hash lalu lanjutkan pemulihan di atas. Bila ada file setengah
+   tersalin dengan hash berbeda, simpan file itu terpisah dahulu untuk
+   pemeriksaan; jangan menimpa perubahan yang tidak diketahui asalnya.
+
+Cadangan manual ini dipulihkan dengan langkah manual di atas. Skrip
+Pulihkan-English.ps1 memakai format manifest cadangannya sendiri dan
+tidak otomatis mengenali folder sesi manual. Jangan hapus cadangan asli.

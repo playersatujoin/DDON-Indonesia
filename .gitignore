@@ -1,0 +1,21 @@
+# Binary game patches are distributed as GitHub Release assets.
+/patch/
+*.arc
+*.zip
+*.7z
+
+# Local installation state and development data must never be published.
+installation-receipt.json
+rollback-pointer.json
+DDON-Indonesia-backup/
+hotfix-history/
+work/
+.env
+.env.*
+*secret*
+*credential*
+*token*
+*deepseek*
+Atur-DeepSeek.ps1
+*.log
+__pycache__/

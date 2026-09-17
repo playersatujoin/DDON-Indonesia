@@ -1,0 +1,59 @@
+Pemasangan terjemahan DDON Indonesia
+
+Simpan Pasang-Terjemahan.ps1, Pulihkan-English.ps1,
+DDON-Indonesia.Common.ps1, manifest.json, dan folder patch bersama-sama.
+Jangan ubah manifest atau isi patch secara manual.
+
+Pemasangan hanya diterima jika manifest berstatus COMPLETE_TEXT_COVERAGE,
+jumlah sumber sudah lengkap, dan issues bernilai 0. Paket yang belum
+selesai otomatis ditolak, termasuk saat menggunakan -CheckOnly.
+
+Tutup DDO dan peluncurnya. Dari PowerShell pada direktori paket, periksa:
+
+  .\Pasang-Terjemahan.ps1 -CheckOnly
+
+Setelah pemeriksaan berhasil, pasang dengan:
+
+  .\Pasang-Terjemahan.ps1
+
+Lokasi bawaan: D:\Dragon's Dogma Online
+Jika game berada di lokasi lain, tambahkan parameter:
+
+  -GamePath "E:\Game\Dragon's Dogma Online"
+
+Skrip memeriksa seluruh hash terlebih dahulu. ARC asli disalin dan
+diverifikasi di DDON-Indonesia-backup\<waktu-UTC>-<kode-sesi> dalam
+direktori game sebelum ARC pertama diganti. Jangan hapus cadangan ini.
+File di luar daftar manifest tidak diganti. Pemasangan ulang paket yang
+sama memakai cadangan terverifikasi yang sudah ada.
+
+installation-receipt.json mencatat hasil pemasangan/pemulihan.
+rollback-pointer.json menunjuk cadangan. Salinan penunjuk juga disimpan
+di DDON-Indonesia-backup\current.json agar pemulihan dapat dilanjutkan.
+
+Untuk kembali ke English asli:
+
+  .\Pulihkan-English.ps1 -CheckOnly
+  .\Pulihkan-English.ps1
+
+Pemulihan memakai manifest yang disimpan bersama cadangan sehingga tetap
+dapat digunakan setelah paket di folder ini diperbarui. Jika file game
+berbeda dari versi asli maupun patch, seluruh pemulihan ditolak agar mod
+atau perubahan Anda tidak tertimpa. Cadangan yang rusak juga ditolak.
+
+Jika listrik padam atau proses terputus, tutup game dan jalankan kembali
+skrip yang sesuai. Kegagalan pemasangan biasa akan mencoba mengembalikan
+file yang baru diganti. Jika penunjuk sesi hilang, tentukan cadangan:
+
+  .\Pulihkan-English.ps1 -BackupPath "D:\Dragon's Dogma Online\DDON-Indonesia-backup\<nama-sesi>"
+
+Kedua skrip membutuhkan izin tulis pada folder game dan folder paket.
+Skrip mengikuti kebijakan PowerShell yang sudah berlaku: tidak mengubah
+ExecutionPolicy dan tidak menutup proses game secara paksa. Jika sistem
+melarang skrip lokal, pemasangan berhenti sebelum dijalankan; kebijakan
+tersebut harus ditangani oleh pemilik/pengelola komputer.
+Alternatif tanpa PowerShell tersedia di Panduan-Pemasangan-Manual.txt;
+ikuti pemeriksaan hash dan cadangan untuk setiap entri manifest.
+
+Jangan menjalankan pemasangan/pemulihan saat game atau paket sedang
+diperbarui. Pemeriksaan hash bukan uji tampilan di dalam game.
